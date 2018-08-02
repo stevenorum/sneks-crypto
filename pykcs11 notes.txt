@@ -1,0 +1,47 @@
+sudo yum install -y swig python-devel python34-devel python36-devel
+sudo yum -y groupinstall "Development Tools"
+sudo alternatives --set gcc "/usr/bin/gcc48"
+sudo pip install pykcs11
+
+CKO_DATA
+CKO_CERTIFICATE
+CKO_PUBLIC_KEY
+CKO_PRIVATE_KEY
+CKO_SECRET_KEY
+CKO_DOMAIN_PARAMETERS
+CKO_OTP_KEY
+CKO_HW_FEATURE
+CKO_MECHANISM
+CKO_VENDOR_DEFINED
+
+
+1048584L, 262164L
+1048582L, 262153L
+
+[(), (34L,), u'test_key_2']
+
+
+CKA_TOKEN
+CKA_CLASS
+CKA_TOKEN
+
+
+
+
+print(sesh._session.getSessionInfo())
+#sesh._session.findObjects([(CKA_CLASS, CKO_PUBLIC_KEY), (CKA_ID, (key_id,))])                                                                                                                                         
+key_list = []
+for obj in OBJECT_CLASSES:
+    #keys = sesh._session.findObjects([(CKA_CLASS, obj), (CKA_ID, (key_id,))])                                                                                                                                         
+    keys = sesh._session.findObjects([(CKA_CLASS, obj),])
+    for key in keys:
+        key_data = {"CKA_CLASS":obj}
+        print(key.value())
+        attrs = sesh._session.getAttributeValue(key, [CKA_ID, CKA_LABEL, CKA_TOKEN, CKA_CLASS])
+        key_data["CKA_ID"] = attrs[0]
+        key_data["CKA_LABEL"] = attrs[1]
+        key_data["CKA_TOKEN"] = attrs[2]
+        key_list.append(key_data)
+    keys = [k.value() for k in keys]
+    print(keys)
+print(key_list)

@@ -1,1 +1,1 @@
-# cryptosnek
+# sneks-crypto
